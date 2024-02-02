@@ -7,9 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-dask = "^2024.1.1"
+dask = {extras = ["distributed"], version = "^2024.1.1"}
 dask-bigquery = "^2023.9.0"
 google-cloud-bigquery = "^3.17.1"
+google-auth = "^2.27.0"
 
 
 [build-system]

@@ -3,7 +3,7 @@ version: "3"
 services:
   ray-head:
     build:
-      context: .
+      context: ..
       target: ray-base
 
     ports:
@@ -11,7 +11,7 @@ services:
       - "${DASHBOARDPORT}:${DASHBOARDPORT}"
       - "${HEADNODEPORT}:${HEADNODEPORT}"
     env_file:
-      - .env
+      - ../.env
     command: bash -c "ray start --head --dashboard-port=${DASHBOARDPORT} --port=${REDISPORT} --dashboard-host=0.0.0.0 --redis-password=${REDISPASSWORD} --block"
     shm_size: 2g
     volumes:
@@ -25,12 +25,12 @@ services:
 
   ray-worker:
     build:
-      context: .
+      context: ..
       target: ray-base
     depends_on: 
       - ray-head
     env_file:
-      - .env
+      - ../.env
     command: bash -c "ray start --address=ray-head:${REDISPORT} --redis-password=${REDISPASSWORD} --num-cpus=${NUM_CPU_WORKER} --block" 
     shm_size: 2g
     deploy:
@@ -43,7 +43,7 @@ services:
 
   ray-notebook:
     build:
-      context: .
+      context: ..
       target: ray-notebook
     depends_on:
       - ray-head
@@ -53,4 +53,4 @@ services:
       # Mount notebooks dir
       - ./notebooks:/home/jovyan/notebooks
     env_file:
-      - .env
+      - ../.env
